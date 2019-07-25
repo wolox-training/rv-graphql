@@ -1,5 +1,5 @@
 const { gql } = require('apollo-server');
-const { getAllAlbums } = require('../../services/albums');
+const { getAllAlbums, getAlbumById } = require('../../services/albums');
 
 const books = [
   {
@@ -38,19 +38,17 @@ const albums = [
 
 module.exports = {
   queries: {
-    books: async () => {
+    books: async (_, params) => {
       console.log('holas');
+      console.log(params);
       const albumsObject = await getAllAlbums();
-      console.log(albumsObject.body);
+      // console.log(albumsObject.body);
+      console.log(albums);
       return books;
     },
-    album: async () => {
-      console.log('holas');
-      const albumsObject = await getAllAlbums();
-      console.log(albumsObject.body);
-      console.log(albums);
-      // return albums;
-      return albums;
+    album: async (_, params) => {
+      const albumObject = await getAlbumById(params.id);
+      return albumObject.body;
     },
     albums: async () => {
       const albumsObject = await getAllAlbums();
