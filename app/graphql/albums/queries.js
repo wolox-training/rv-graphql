@@ -1,13 +1,5 @@
 const { gql } = require('apollo-server');
-const { request } = require('../../helpers/request');
-const { ALBUMS_API_URL: url } = require('../../../config/environment');
-
-const getAllAlbums = () =>
-  request({
-    url: `${url}/albums`,
-    method: 'get',
-    json: true
-  });
+const { getAllAlbums } = require('../../services/albums');
 
 const books = [
   {
@@ -20,26 +12,13 @@ const books = [
   }
 ];
 
-// const getAlbumById = id =>
-//   request({
-//     url: `${url}/albums/${id}`,
-//     method: 'get',
-//     json: true
-//   });
-
-// const getPhotosFromAlbum = id =>
-//   request({
-//     url: `${url}/photos?albumId=${id}`,
-//     method: 'get',
-//     json: true
-//   });
-
-// const getPhotoFromAlbumByIds = (idAlbum, idPhoto) =>
-//   request({
-//     url: `${url}/photos?albumId=${idAlbum}&id=${idPhoto}`,
-//     method: 'get',
-//     json: true
-//   });
+const albums = [
+  {
+    id: 2,
+    userId: 55,
+    title: 'Fullstack tutorial for GraphQL'
+  }
+];
 
 // module.exports = {
 //   queries: {
@@ -57,25 +36,31 @@ const books = [
 
 // const { user: User } = require('../../models');
 
-const albums = [
-  {
-    id: 2,
-    userId: 55,
-    title: 'Fullstack tutorial for GraphQL'
-  }
-];
-
 module.exports = {
   queries: {
-    books: () => {
-      console.log(getAllAlbums());
+    books: async () => {
+      console.log('holas');
+      const albumsObject = await getAllAlbums();
+      console.log(albumsObject.body);
       return books;
     },
-    album: () => albums
+    album: async () => {
+      console.log('holas');
+      const albumsObject = await getAllAlbums();
+      console.log(albumsObject.body);
+      console.log(albums);
+      // return albums;
+      return albums;
+    },
+    albums: async () => {
+      const albumsObject = await getAllAlbums();
+      return albumsObject.body;
+    }
   },
   schema: gql`
     extend type Query {
       album(id: ID, userId: Int, title: String): Album!
+      albums: [Album]
       books: [Book]
     }
   `
