@@ -20,10 +20,13 @@ module.exports = gql`
   type Album {
     userId: Int!
     title: String!
+    photos: [Photo!]!
     id: ID!
   }
-  type Book {
-    title: String
-    author: String
+  type Photo {
+    albumId: Int!
+    id: ID!
+    url: String!
+    thumbnailUrl: String!
   }
 `;
