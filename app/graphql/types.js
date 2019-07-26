@@ -20,7 +20,7 @@ module.exports = gql`
   type Album {
     userId: Int!
     title: String!
-    photos: [Photo!]!
+    photos: [Photo!]
     id: ID!
   }
   type Photo {

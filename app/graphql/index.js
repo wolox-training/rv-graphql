@@ -20,6 +20,12 @@ module.exports = makeExecutableSchema({
     },
     Subscription: {
       ...users.subscriptions
+    },
+    Album: {
+      ...albums.albumFieldResolvers
+    },
+    Photo: {
+      ...albums.photoFieldResolvers
     }
   }
 });
