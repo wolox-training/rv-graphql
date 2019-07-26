@@ -1,11 +1,6 @@
 const { getAllAlbums, getAlbumById, getPhotosFromAlbum } = require('../../services/albums');
 
-const albumQueryResolver = async (_, params) => {
-  const album = (await getAlbumById(params.id)).body;
-  const photosFromAlbum = (await getPhotosFromAlbum(params.id)).body;
-  album.photos = photosFromAlbum;
-  return album;
-};
+const albumQueryResolver = async (_, params) => (await getAlbumById(params.id)).body;
 
 const albumsQueryResolver = async (_, params) => {
   let { page } = params;
@@ -26,19 +21,13 @@ const albumsQueryResolver = async (_, params) => {
 
 module.exports = {
   albumFieldResolvers: {
-    userId: parent => {
-      console.log('accessing album userId');
-      return parent.userId;
-    },
+    userId: parent => parent.userId,
     title: parent => parent.title,
-    photos: parent => parent.photos,
-    id: parent => parent.id
+    id: parent => parent.id,
+    photos: async parent => (await getPhotosFromAlbum(parent.id)).body
   },
   photoFieldResolvers: {
-    albumId: parent => {
-      console.log('accessing photo albumId');
-      return parent.albumId;
-    },
+    albumId: parent => parent.albumId,
     id: parent => parent.id,
     url: parent => parent.url,
     thumbnailUrl: parent => parent.thumbnailUrl
