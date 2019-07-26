@@ -9,10 +9,7 @@ const albumsQueryResolver = async (_, params) => {
   const albums = (await getAllAlbums()).body;
 
   // eslint-disable-next-line curly
-  if (page === undefined || limit === undefined) {
-    console.log('chau');
-    return albums;
-  }
+  if (page === undefined || limit === undefined) return albums;
 
   if (isNaN(page) || isNaN(limit) || page < 0 || limit <= 0) {
     page = 0;
