@@ -23,9 +23,6 @@ module.exports = makeExecutableSchema({
     },
     Album: {
       ...albums.albumFieldResolvers
-    },
-    Photo: {
-      ...albums.photoFieldResolvers
     }
   }
 });

@@ -1,7 +1,7 @@
 /* eslint-disable curly */
 const { getAllAlbums, getAlbumById, getPhotosFromAlbum } = require('../../services/albums');
 const { sortAlbums } = require('../../helpers/sorting');
-const { filterItems } = require('../../helpers/filtering');
+const { filterAlbums } = require('../../helpers/filtering');
 
 const albumQueryResolver = async (_, params) => (await getAlbumById(params.id)).body;
 
@@ -11,7 +11,7 @@ const albumsQueryResolver = async (_, params) => {
 
   let albums = (await getAllAlbums()).body;
 
-  if (filteringString) albums = filterItems(albums, filteringString);
+  if (filteringString) albums = filterAlbums(albums, filteringString);
   if (sortingKey && sortingOrder) sortAlbums(albums, sortingKey, sortingOrder);
 
   if (page === undefined || limit === undefined) return albums;
@@ -26,16 +26,7 @@ const albumsQueryResolver = async (_, params) => {
 
 module.exports = {
   albumFieldResolvers: {
-    userId: parent => parent.userId,
-    title: parent => parent.title,
-    id: parent => parent.id,
     photos: async parent => (await getPhotosFromAlbum(parent.id)).body
-  },
-  photoFieldResolvers: {
-    albumId: parent => parent.albumId,
-    id: parent => parent.id,
-    url: parent => parent.url,
-    thumbnailUrl: parent => parent.thumbnailUrl
   },
   albumQueryResolver,
   albumsQueryResolver
