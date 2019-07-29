@@ -12,7 +12,7 @@ const albumsQueryResolver = async (_, params) => {
   let albums = (await getAllAlbums()).body;
 
   if (filteringString) albums = filterAlbums(albums, filteringString);
-  if (sortingKey && sortingOrder) sortArray(albums, sortingKey, sortingOrder);
+  if (sortingKey === 'title' && sortingOrder) sortArray(albums, sortingKey, sortingOrder);
 
   if (page === undefined || limit === undefined) return albums;
 
