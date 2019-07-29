@@ -1,10 +1,15 @@
+const { encryptPassword } = require('../../helpers/encryption');
+
 const { gql } = require('apollo-server'),
   { userLoggedIn } = require('../events'),
   { user: User } = require('../../models');
 
 module.exports = {
   mutations: {
-    createUser: (_, { user }) => User.createModel(user),
+    createUser: (_, { user }) => {
+      user.password = encryptPassword(user.password);
+      return User.createModel(user);
+    },
     login: (_, { credentials }) => {
       // IMPORTANT: Not a functional login, its just for illustrative purposes
       userLoggedIn.publish(credentials.username);
