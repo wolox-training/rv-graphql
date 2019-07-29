@@ -1,6 +1,6 @@
 /* eslint-disable curly */
 const { getAllAlbums, getAlbumById, getPhotosFromAlbum } = require('../../services/albums');
-const { sortAlbums } = require('../../helpers/sorting');
+const { sortArray } = require('../../helpers/sorting');
 const { filterAlbums } = require('../../helpers/filtering');
 
 const albumQueryResolver = async (_, params) => (await getAlbumById(params.id)).body;
@@ -12,7 +12,7 @@ const albumsQueryResolver = async (_, params) => {
   let albums = (await getAllAlbums()).body;
 
   if (filteringString) albums = filterAlbums(albums, filteringString);
-  if (sortingKey && sortingOrder) sortAlbums(albums, sortingKey, sortingOrder);
+  if (sortingKey && sortingOrder) sortArray(albums, sortingKey, sortingOrder);
 
   if (page === undefined || limit === undefined) return albums;
 

@@ -1,5 +1,5 @@
 /* eslint-disable curly */
-const sortAlbums = (albumsArray, key, order) => {
+const sortArray = (albumsArray, key, order) => {
   albumsArray.sort((a, b) => {
     let keyA = a.id;
     let keyB = b.id;
@@ -24,4 +24,4 @@ const sortAlbums = (albumsArray, key, order) => {
   });
 };
 
-module.exports = { sortAlbums };
+module.exports = { sortArray };
