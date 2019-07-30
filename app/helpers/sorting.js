@@ -1,27 +1,19 @@
 /* eslint-disable curly */
-const sortAlbums = (albumsArray, key, order) => {
-  albumsArray.sort((a, b) => {
-    let keyA = a.id;
-    let keyB = b.id;
-    if (key === 'title') {
-      keyA = a.title.toUpperCase();
-      keyB = b.title.toUpperCase();
-    }
-    if (key === 'userId') {
-      keyA = a.userId;
-      keyB = b.userId;
-    }
+const sortArray = (objectsArray, key, order) => {
+  const ordering =
+    {
+      DES: -1,
+      ASC: 1
+    }[order] || -1;
 
-    if (keyA < keyB) {
-      if (order === 'DES') return 1;
-      return -1;
-    }
-    if (keyA > keyB) {
-      if (order === 'DES') return -1;
-      return 1;
-    }
+  objectsArray.sort((a, b) => {
+    const keyA = typeof a[key] === 'string' ? a[key].toUpperCase() : a[key];
+    const keyB = typeof a[key] === 'string' ? b[key].toUpperCase() : b[key];
+
+    if (keyA < keyB) return -ordering;
+    if (keyA > keyB) return ordering;
     return 0;
   });
 };
 
-module.exports = { sortAlbums };
+module.exports = { sortArray };
