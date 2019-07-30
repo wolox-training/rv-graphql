@@ -6,16 +6,9 @@ const sortArray = (albumsArray, key, order) => {
       ASC: 1
     }[order] || -1;
 
-  const fieldIsString = typeof albumsArray[0][key] === 'string';
-
   albumsArray.sort((a, b) => {
-    let keyA = a[key];
-    let keyB = b[key];
-
-    if (fieldIsString) {
-      keyA = keyA.toUpperCase();
-      keyB = keyB.toUpperCase();
-    }
+    const keyA = typeof a[key] === 'string' ? a[key].toUpperCase() : a[key];
+    const keyB = typeof a[key] === 'string' ? b[key].toUpperCase() : b[key];
 
     if (keyA < keyB) return -ordering;
     if (keyA > keyB) return ordering;
