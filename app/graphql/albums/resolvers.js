@@ -1,7 +1,9 @@
 /* eslint-disable curly */
 const { getAllAlbums, getAlbumById, getPhotosFromAlbum } = require('../../services/albums');
 const { sortArray } = require('../../helpers/sorting');
-const { filterAlbums } = require('../../helpers/filtering');
+
+const filterAlbums = (array, query) =>
+  array.filter(element => element.title.toLowerCase().indexOf(query.toLowerCase()) !== -1);
 
 const albumQueryResolver = async (_, params) => (await getAlbumById(params.id)).body;
 
