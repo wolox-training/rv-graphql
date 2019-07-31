@@ -1,6 +1,6 @@
 /* eslint-disable curly */
 const bcrypt = require('bcryptjs');
-const saltValue = require('../../config/constants');
+const { saltValue } = require('../../config/constants');
 
 const salt = bcrypt.genSaltSync(saltValue);
 
