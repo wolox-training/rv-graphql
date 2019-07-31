@@ -1,7 +1,7 @@
 /* eslint-disable curly */
 const bcrypt = require('bcryptjs');
+const saltValue = require('../../config/constants');
 
-const saltValue = 10;
 const salt = bcrypt.genSaltSync(saltValue);
 
 const encryptPassword = password => bcrypt.hashSync(password, salt);

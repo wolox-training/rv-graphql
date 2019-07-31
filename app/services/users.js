@@ -4,9 +4,9 @@ const logger = require('../logger/index');
 const { user: User } = require('../models');
 const { validateEmailAndPasswordProm } = require('./validators/users');
 
-const createUserMethod = async (_, { user }) => {
+const createUser = async user => {
   try {
-    await validateEmailAndPasswordProm(user);
+    validateEmailAndPasswordProm(user);
     const encryptedPassword = await encryptPasswordAsync(user.password);
     user.password = encryptedPassword;
     const createdUser = await User.createModel(user);
@@ -20,4 +20,4 @@ const createUserMethod = async (_, { user }) => {
   }
 };
 
-module.exports = { createUserMethod };
+module.exports = { createUser };

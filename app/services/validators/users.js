@@ -18,12 +18,11 @@ const validateEmailAndPassword = user => {
   return { errors };
 };
 
-const validateEmailAndPasswordProm = user =>
-  new Promise((resolve, reject) => {
-    const validationErrors = validateEmailAndPassword(user).errors;
-    if (validationErrors.length) {
-      reject(new ValidationError(validationErrors));
-    } else resolve();
-  });
+const validateEmailAndPasswordProm = user => {
+  const validationErrors = validateEmailAndPassword(user).errors;
+  if (validationErrors.length) {
+    throw new ValidationError(validationErrors);
+  }
+};
 
 module.exports = { validateEmailAndPassword, validateEmailAndPasswordProm };
