@@ -2,9 +2,11 @@
 const { encryptPasswordAsync } = require('../helpers/encryption');
 const logger = require('../logger/index');
 const { user: User } = require('../models');
+const { validateEmailAndPasswordProm } = require('./validators/users');
 
 const createUserMethod = async (_, { user }) => {
   try {
+    await validateEmailAndPasswordProm(user);
     const encryptedPassword = await encryptPasswordAsync(user.password);
     user.password = encryptedPassword;
     const createdUser = await User.createModel(user);
@@ -13,10 +15,7 @@ const createUserMethod = async (_, { user }) => {
     );
     return createdUser;
   } catch (error) {
-    logger.error(error.name);
-    error.errors.forEach(element => {
-      logger.error(element.message);
-    });
+    logger.error(error);
     return error;
   }
 };
