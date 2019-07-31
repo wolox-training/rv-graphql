@@ -18,11 +18,11 @@ const validateEmailAndPassword = user => {
   return { errors };
 };
 
-const validateEmailAndPasswordProm = user => {
+const validateEmailAndPasswordError = user => {
   const validationErrors = validateEmailAndPassword(user).errors;
   if (validationErrors.length) {
     throw new ValidationError(validationErrors);
   }
 };
 
-module.exports = { validateEmailAndPassword, validateEmailAndPasswordProm };
+module.exports = { validateEmailAndPassword, validateEmailAndPasswordError };
