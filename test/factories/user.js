@@ -1,17 +1,14 @@
 const { factory } = require('factory-girl'),
   faker = require('faker'),
   models = require('../../app/models'),
-  // { encryptPassword } = require('../../app/helpers/encryption'),
   { user: User } = models;
 
 factory.define('user', User, {
   firstName: () => faker.name.firstName(),
   lastName: () => faker.name.lastName(),
-  email: () => faker.internet.email(),
+  email: () => `${faker.name.lastName()}@wolox.com.ar`,
   username: () => faker.internet.email(),
-  password: () => faker.internet.password()
-  // email: () => `${faker.name.lastName()}@wolox.com.ar`,
-  // password: encryptPassword(factory.chance('word', { length: 8 })())
+  password: factory.chance('word', { length: 8 })()
 });
 
 module.exports = {

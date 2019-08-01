@@ -2,11 +2,11 @@
 const { user: User } = require('../models'),
   logger = require('../logger/index'),
   { encryptPasswordAsync } = require('../helpers/encryption');
-// { validateEmailAndPasswordError } = require('./validators/users');
+const { validateEmailAndPasswordError } = require('./validators/users');
 
 const createUser = async user => {
   try {
-    // validateEmailAndPasswordError(user);
+    validateEmailAndPasswordError(user);
     const encryptedPassword = await encryptPasswordAsync(user.password);
     user.password = encryptedPassword;
     const createdUser = await User.createModel(user);
