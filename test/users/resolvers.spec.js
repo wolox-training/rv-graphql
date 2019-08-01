@@ -2,8 +2,17 @@ const userFactory = require('../factories/user'),
   { mutations } = require('../../app/graphql/users/mutations');
 
 describe('users', () => {
+  beforeEach(() => userFactory.cleanUp());
+  afterEach(() => userFactory.cleanUp());
+
   describe('resolvers', () => {
+    beforeEach(() => userFactory.cleanUp());
+    afterEach(() => userFactory.cleanUp());
+
     describe('createUser', () => {
+      beforeEach(() => userFactory.cleanUp());
+      afterEach(() => userFactory.cleanUp());
+
       it('should create an user successfuly', async () => {
         const user = await userFactory.build();
         mutations.createUser({}, { user: user.dataValues }).then(res => {

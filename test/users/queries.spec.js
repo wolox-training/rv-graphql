@@ -3,7 +3,13 @@ const { query } = require('../server.spec'),
   userFactory = require('../factories/user');
 
 describe('users', () => {
+  beforeEach(() => userFactory.cleanUp());
+  afterEach(() => userFactory.cleanUp());
+
   describe('queries', () => {
+    beforeEach(() => userFactory.cleanUp());
+    afterEach(() => userFactory.cleanUp());
+
     it('should get user properly', () =>
       userFactory.create().then(user =>
         query(getUser(user.id)).then(res => {
@@ -29,7 +35,7 @@ describe('users', () => {
         expect(res.data).toBeNull();
       }));
 
-    it('should return an empty array wheren there are no users', () =>
+    it('should return an empty array where there are no users', () =>
       query(getUsers()).then(res => {
         expect(res.data.users).toEqual([]);
       }));
