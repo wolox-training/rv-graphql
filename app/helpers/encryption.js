@@ -1,14 +1,15 @@
 /* eslint-disable curly */
 const bcrypt = require('bcryptjs');
 const { saltValue } = require('../../config/constants');
+const { defaultError } = require('../errors');
 
 const salt = bcrypt.genSaltSync(saltValue);
 
 const encryptPassword = password => bcrypt.hashSync(password, salt);
 const encryptPasswordAsync = password =>
   new Promise((resolve, reject) => {
-    bcrypt.hash(password, salt, (err, hash) => {
-      if (err) reject(err);
+    bcrypt.hash(password, salt, (error, hash) => {
+      if (error) reject(defaultError('Encryption Failed'));
       resolve(hash);
     });
   });

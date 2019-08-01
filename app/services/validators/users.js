@@ -1,5 +1,5 @@
 /* eslint-disable curly */
-const { ValidationError } = require('apollo-server');
+const { defaultError } = require('../../errors');
 
 // eslint-disable-next-line no-useless-escape
 const regexValidEmail = /^([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)@wolox.(com\.ar|cl)$/;
@@ -21,7 +21,7 @@ const validateEmailAndPassword = user => {
 const validateEmailAndPasswordError = user => {
   const validationErrors = validateEmailAndPassword(user).errors;
   if (validationErrors.length) {
-    throw new ValidationError(validationErrors);
+    throw defaultError(validationErrors);
   }
 };
 
