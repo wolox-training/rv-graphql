@@ -25,6 +25,22 @@ describe('users', () => {
       );
     });
 
+    it('should create an user successfuly using the name field', () => {
+      userFactory.attributes({ firstName: '', lastName: '', name: 'Carl Johnsson' }).then(user =>
+        mutate(createUser(user)).then(res => {
+          user.firstName = 'Carl';
+          user.lastName = 'Johnsson';
+          const { firstName, lastName, email, password, username, id } = res.data.createUser;
+          expect(firstName).toEqual(user.firstName);
+          expect(lastName).toEqual(user.lastName);
+          expect(email).toEqual(user.email);
+          expect(checkPassword(user.password, password)).toEqual(true);
+          expect(username).toEqual(user.username);
+          expect(id).toBeDefined();
+        })
+      );
+    });
+
     it('should return password too short', () => {
       userFactory.attributes({ email: 'casrta@wolox.com.ar', password: 'asadfas' }).then(user =>
         mutate(createUser(user)).then(res => {
