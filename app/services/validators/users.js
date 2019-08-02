@@ -1,6 +1,4 @@
 /* eslint-disable curly */
-const { defaultError } = require('../../errors');
-
 // eslint-disable-next-line no-useless-escape
 const regexValidEmail = /^([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)@wolox.(com\.ar|cl)$/;
 const regexAlphanumeric = /^[a-zA-Z0-9]*$/;
@@ -18,11 +16,4 @@ const validateEmailAndPassword = user => {
   return { errors };
 };
 
-const validateEmailAndPasswordError = user => {
-  const validationErrors = validateEmailAndPassword(user).errors;
-  if (validationErrors.length) {
-    throw defaultError(validationErrors);
-  }
-};
-
-module.exports = { validateEmailAndPassword, validateEmailAndPasswordError };
+module.exports = { validateEmailAndPassword };

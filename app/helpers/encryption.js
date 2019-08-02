@@ -9,8 +9,8 @@ const encryptPassword = password => bcrypt.hashSync(password, salt);
 const encryptPasswordAsync = password =>
   new Promise((resolve, reject) => {
     bcrypt.hash(password, salt, (error, hash) => {
-      if (error) reject(defaultError('Encryption Failed'));
-      resolve(hash);
+      if (error) return reject(defaultError('Encryption Failed'));
+      return resolve(hash);
     });
   });
 
