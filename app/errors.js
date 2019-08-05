@@ -2,8 +2,10 @@ const { ApolloError } = require('apollo-server');
 
 const createError = (message, statusCode) => new ApolloError(message, statusCode);
 
-const DEFAULT_ERROR = 500,
-  BAD_REQUEST = 400;
+const BAD_REQUEST = 400,
+  UNAUTHORIZED = 401,
+  INTERNAL_SERVER_ERROR = 500;
 
-exports.defaultError = message => createError(message, DEFAULT_ERROR);
 exports.badRequest = message => createError(message, BAD_REQUEST);
+exports.unauthorized = message => createError(message, UNAUTHORIZED);
+exports.defaultError = message => createError(message, INTERNAL_SERVER_ERROR);
