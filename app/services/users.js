@@ -1,12 +1,17 @@
 /* eslint-disable curly */
-const { user: User } = require('../models'),
-  logger = require('../logger/index'),
-  { encryptPasswordAsync } = require('../helpers/encryption');
-const { validateEmailAndPasswordError } = require('./validators/users');
+const { encryptPasswordAsync } = require('../helpers/encryption');
+const logger = require('../logger/index');
+const { user: User } = require('../models');
+const { validateEmailAndPassword } = require('./validators/users');
+const { defaultError } = require('../errors');
 
 const createUser = async user => {
   try {
-    validateEmailAndPasswordError(user);
+    const validationErrors = validateEmailAndPassword(user).errors;
+    if (validationErrors.length) {
+      return defaultError(validationErrors);
+    }
+
     const encryptedPassword = await encryptPasswordAsync(user.password);
     user.password = encryptedPassword;
     const createdUser = await User.createModel(user);
@@ -16,7 +21,7 @@ const createUser = async user => {
     return createdUser;
   } catch (error) {
     logger.error(error);
-    return error;
+    return defaultError(error);
   }
 };
 
