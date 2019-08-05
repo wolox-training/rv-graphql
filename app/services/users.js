@@ -9,7 +9,7 @@ const createUser = async user => {
   try {
     const validationErrors = validateEmailAndPassword(user).errors;
     if (validationErrors.length) {
-      throw defaultError(validationErrors);
+      return defaultError(validationErrors);
     }
 
     const encryptedPassword = await encryptPasswordAsync(user.password);
