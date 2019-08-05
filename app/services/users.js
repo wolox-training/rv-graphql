@@ -1,8 +1,9 @@
 /* eslint-disable curly */
-const { user: User } = require('../models'),
-  logger = require('../logger/index'),
-  { encryptPasswordAsync } = require('../helpers/encryption');
-const { validateEmailAndPasswordError } = require('./validators/users');
+const { encryptPasswordAsync } = require('../helpers/encryption');
+const logger = require('../logger/index');
+const { user: User } = require('../models');
+const { validateEmailAndPassword } = require('./validators/users');
+const { defaultError } = require('../errors');
 const { badRequest } = require('../errors');
 
 const splitName = string => {
@@ -13,10 +14,13 @@ const splitName = string => {
 
 const createUser = async user => {
   try {
-    validateEmailAndPasswordError(user);
+    const validationErrors = validateEmailAndPassword(user).errors;
+    if (validationErrors.length) {
+      return defaultError(validationErrors);
+    }
 
     if (!user.name && !(user.firstName && user.firstName)) {
-      throw badRequest('The name of the user was not formulated correctly');
+      return badRequest('The name of the user was not formulated correctly');
     }
 
     const encryptedPassword = await encryptPasswordAsync(user.password);
@@ -37,8 +41,7 @@ const createUser = async user => {
     return createdUser;
   } catch (error) {
     logger.error(error);
-
-    return error;
+    return defaultError(error);
   }
 };
 
