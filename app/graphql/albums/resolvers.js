@@ -5,9 +5,9 @@ const { sortArray } = require('../../helpers/sorting');
 const filterAlbums = (array, query) =>
   array.filter(element => element.title.toLowerCase().indexOf(query.toLowerCase()) !== -1);
 
-const albumQueryResolver = async (_, params) => (await getAlbumById(params.id)).body;
+const albumQueryResolver = async params => (await getAlbumById(params.id)).body;
 
-const albumsQueryResolver = async (_, params) => {
+const albumsQueryResolver = async params => {
   let { page, limit } = params;
   const { sortingKey, sortingOrder, filteringString } = params;
 
