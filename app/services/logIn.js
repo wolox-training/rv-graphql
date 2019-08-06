@@ -1,7 +1,6 @@
 /* eslint-disable curly */
 const { user: User } = require('../models');
 const { checkPassword } = require('../helpers/encryption');
-const { unauthorized } = require('../errors');
 const { signToken } = require('../helpers/token');
 
 const areCredentialsPresent = user => {
