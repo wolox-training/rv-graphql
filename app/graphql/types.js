@@ -15,7 +15,6 @@ module.exports = gql`
   }
   type AccessToken {
     accessToken: String!
-    refreshToken: String!
     expiresIn: Int!
   }
   type Album {
@@ -29,5 +28,9 @@ module.exports = gql`
     id: ID!
     url: String!
     thumbnailUrl: String!
+  }
+  type Token {
+    auth: Boolean!
+    token: String!
   }
 `;

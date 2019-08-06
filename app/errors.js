@@ -8,4 +8,4 @@ const BAD_REQUEST = 400,
 
 exports.badRequest = message => createError(message, BAD_REQUEST);
 exports.unauthorized = message => createError(message, UNAUTHORIZED);
-exports.defaultError = message => createError(message, INTERNAL_SERVER_ERROR);
+exports.internalServerError = message => createError(message, INTERNAL_SERVER_ERROR);

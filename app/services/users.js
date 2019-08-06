@@ -3,7 +3,7 @@ const { encryptPasswordAsync } = require('../helpers/encryption');
 const logger = require('../logger/index');
 const { user: User } = require('../models');
 const { validateEmailAndPassword } = require('./validators/users');
-const { defaultError } = require('../errors');
+const { internalServerError } = require('../errors');
 const { badRequest } = require('../errors');
 
 const splitName = string => {
@@ -16,7 +16,7 @@ const createUser = async user => {
   try {
     const validationErrors = validateEmailAndPassword(user).errors;
     if (validationErrors.length) {
-      return defaultError(validationErrors);
+      return internalServerError(validationErrors);
     }
 
     if (!user.name && !(user.firstName && user.firstName)) {
@@ -41,7 +41,7 @@ const createUser = async user => {
     return createdUser;
   } catch (error) {
     logger.error(error);
-    return defaultError(error);
+    return internalServerError(error);
   }
 };
 

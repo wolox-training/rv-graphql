@@ -1,7 +1,7 @@
 /* eslint-disable curly */
 const bcrypt = require('bcryptjs');
 const { saltValue } = require('../../config/constants');
-const { defaultError } = require('../errors');
+const { internalServerError } = require('../errors');
 
 const salt = bcrypt.genSaltSync(saltValue);
 
@@ -9,7 +9,7 @@ const encryptPassword = password => bcrypt.hashSync(password, salt);
 const encryptPasswordAsync = password =>
   new Promise((resolve, reject) => {
     bcrypt.hash(password, salt, (error, hash) => {
-      if (error) return reject(defaultError('Encryption Failed'));
+      if (error) return reject(internalServerError('Encryption Failed'));
       return resolve(hash);
     });
   });
