@@ -1,5 +1,4 @@
 'use strict';
-
 const { encryptPassword } = require('../app/helpers/encryption');
 const mySuperPassword = 'mySuperPassword';
 
@@ -15,12 +14,12 @@ module.exports = {
           username: 'theJohnDoe',
           email: 'john.doe@wolox.com.ar',
           password: encryptPassword(mySuperPassword),
-          createdAt: '2016-06-22 19:10:25-07',
-          updatedAt: '2016-06-22 19:10:25-07'
+          created_at: '2016-06-22 19:10:25-07',
+          updated_at: '2016-06-22 19:10:25-07',
+          deleted_at: null
         }
       ],
       {}
     ),
-
   down: queryInterface => queryInterface.bulkDelete('users')
 };

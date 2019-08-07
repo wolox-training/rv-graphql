@@ -1,5 +1,8 @@
+// const { album: Album } = require('../models');
+
 module.exports = {
   userFieldResolvers: {
-    name: parent => `${parent.firstName} ${parent.lastName}`
+    name: parent => `${parent.firstName} ${parent.lastName}`,
+    // albumasdf: async parent => await Album.getAll()
   }
 };

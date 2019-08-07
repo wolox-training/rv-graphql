@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) =>
@@ -27,8 +26,8 @@ module.exports = {
           key: 'id'
         }
       },
-      createdAt: Sequelize.DATE,
-      updatedAt: Sequelize.DATE,
+      created_at: Sequelize.DATE,
+      updated_at: Sequelize.DATE,
       deleted_at: Sequelize.DATE
     }),
   down: queryInterface => queryInterface.dropTable('userAlbums')

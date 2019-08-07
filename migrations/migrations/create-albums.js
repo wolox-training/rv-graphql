@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) =>
@@ -14,17 +13,17 @@ module.exports = {
         allowNull: false,
         field: 'original_album_id'
       },
-      userId: {
+      originalUserId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        field: 'user_id'
+        field: 'original_user_id'
       },
       title: {
-        type: Sequelize.string,
+        type: Sequelize.STRING,
         allowNull: false
       },
-      createdAt: Sequelize.DATE,
-      updatedAt: Sequelize.DATE,
+      created_at: Sequelize.DATE,
+      updated_at: Sequelize.DATE,
       deleted_at: Sequelize.DATE
     }),
   down: queryInterface => queryInterface.dropTable('albums')

@@ -14,10 +14,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         field: 'original_album_id'
       },
-      userId: {
+      originalUserId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        field: 'user_id'
+        field: 'original_user_id'
       },
       title: {
         type: DataTypes.STRING,
@@ -37,5 +37,12 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'album_id'
     });
   };
+
+  Albums.getOne = album => Albums.findOne({ where: album });
+
+  Albums.getAll = () => Albums.findAll();
+
+  Albums.getByTitle = title => Albums.getOne({ title });
+
   return Albums;
 };
