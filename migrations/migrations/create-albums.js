@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('albums', {
+    queryInterface.createTable('Album', {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -10,21 +10,30 @@ module.exports = {
       },
       originalAlbumId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        field: 'original_album_id'
+        // field: 'original_album_id',
+        allowNull: false
       },
       originalUserId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        field: 'original_user_id'
+        // field: 'original_user_id',
+        allowNull: false
       },
       title: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      created_at: Sequelize.DATE,
-      updated_at: Sequelize.DATE,
-      deleted_at: Sequelize.DATE
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      deletedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
     }),
-  down: queryInterface => queryInterface.dropTable('albums')
+  down: queryInterface => queryInterface.dropTable('Album')
 };

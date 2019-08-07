@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    'users',
+    'Users',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -11,13 +11,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       firstName: {
         type: DataTypes.STRING,
-        allowNull: false,
-        field: 'first_name'
+        // field: 'first_name',
+        allowNull: false
       },
       lastName: {
         type: DataTypes.STRING,
-        allowNull: false,
-        field: 'last_name'
+        // field: 'last_name',
+        allowNull: false
       },
       username: {
         type: DataTypes.STRING,
@@ -32,17 +32,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     },
-    {
-      paranoid: true,
-      underscored: true
-    }
+    {}
   );
 
   User.associate = models => {
-    User.belongsToMany(models.Albums, {
-      through: 'UserAlbums',
+    User.belongsToMany(models.Album, {
       as: 'albums',
-      foreignKey: 'user_id'
+      through: models.UserAlbums,
+      foreignKey: 'userId'
     });
   };
 
@@ -56,19 +53,19 @@ module.exports = (sequelize, DataTypes) => {
 
   User.prototype.updateModel = props => this.update(props);
 
-  User.getAllAll = (user, albumModel) =>
-    User.findAll({
-      include: [
-        {
-          model: albumModel,
-          as: 'albums',
-          required: false,
-          attributes: ['id', 'name'],
-          through: { attributes: [] }
-        }
-      ],
-      where: { user }
-    });
+  // User.getAllAll = (user, albumModel) =>
+  //   User.findAll({
+  //     include: [
+  //       {
+  //         model: albumModel,
+  //         as: 'albums',
+  //         required: false,
+  //         attributes: ['id', 'name'],
+  //         through: { attributes: [] }
+  //       }
+  //     ],
+  //     where: { user }
+  //   });
 
   return User;
 };

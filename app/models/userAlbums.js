@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const UserAlbums = sequelize.define(
-    'userAlbums',
+    'UserAlbums',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -12,27 +12,25 @@ module.exports = (sequelize, DataTypes) => {
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        field: 'user_id',
+        // field: 'user_id',
         references: {
-          model: 'users',
-          key: 'id'
+          model: 'Users',
+          key: 'id',
+          as: 'userId'
         }
       },
       albumId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        field: 'album_id',
+        // field: 'album_id',
         references: {
-          model: 'albums',
-          key: 'id'
+          model: 'Albums',
+          key: 'id',
+          as: 'albumId'
         }
       }
     },
-    {
-      tableName: 'user_albums',
-      paranoid: true,
-      underscored: true
-    }
+    {}
   );
   return UserAlbums;
 };

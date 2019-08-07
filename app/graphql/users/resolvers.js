@@ -2,7 +2,7 @@
 
 module.exports = {
   userFieldResolvers: {
-    name: parent => `${parent.firstName} ${parent.lastName}`,
-    // albumasdf: async parent => await Album.getAll()
+    name: parent => `${parent.firstName} ${parent.lastName}`
+    // albumasdf: async parent => parent
   }
 };
