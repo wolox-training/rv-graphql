@@ -2,7 +2,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('user_albums', {
+    queryInterface.createTable('userAlbums', {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -18,14 +18,18 @@ module.exports = {
           key: 'id'
         }
       },
-      externalReferenceId: {
+      albumId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        field: 'external_reference_id'
+        field: 'album_id',
+        references: {
+          model: 'albums',
+          key: 'id'
+        }
       },
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE,
       deleted_at: Sequelize.DATE
     }),
-  down: queryInterface => queryInterface.dropTable('user_albums')
+  down: queryInterface => queryInterface.dropTable('userAlbums')
 };

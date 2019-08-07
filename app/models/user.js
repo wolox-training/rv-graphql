@@ -1,7 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    'user',
+    'users',
     {
+      id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true
+      },
       firstName: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -26,14 +32,17 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     {
-      tableName: 'users',
       paranoid: true,
       underscored: true
     }
   );
 
   User.associate = models => {
-    User.hasMany(models.userAlbums, { foreignKey: 'user_id' });
+    User.belongsToMany(models.Albums, {
+      through: 'UserAlbums',
+      as: 'albums',
+      foreignKey: 'user_id'
+    });
   };
 
   User.createModel = user => User.create(user);
@@ -45,6 +54,20 @@ module.exports = (sequelize, DataTypes) => {
   User.getByUsername = username => User.getOne({ username });
 
   User.prototype.updateModel = props => this.update(props);
+
+  User.getAllAll = (user, albumModel) =>
+    User.findAll({
+      include: [
+        {
+          model: albumModel,
+          as: 'albums',
+          required: false,
+          attributes: ['id', 'name'],
+          through: { attributes: [] }
+        }
+      ],
+      where: { user }
+    });
 
   return User;
 };
