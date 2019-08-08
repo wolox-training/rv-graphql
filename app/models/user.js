@@ -1,44 +1,17 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    'Users',
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true
-      },
-      firstName: {
-        type: DataTypes.STRING,
-        // field: 'first_name',
-        allowNull: false
-      },
-      lastName: {
-        type: DataTypes.STRING,
-        // field: 'last_name',
-        allowNull: false
-      },
-      username: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false
-      }
-    },
-    {}
-  );
+  const User = sequelize.define('User', {
+    firstName: DataTypes.STRING,
+    lastName: DataTypes.STRING,
+    username: DataTypes.STRING,
+    email: DataTypes.STRING,
+    password: DataTypes.STRING
+  });
 
   User.associate = models => {
     User.belongsToMany(models.Album, {
       as: 'albums',
-      through: models.UserAlbums,
+      through: 'UserAlbums',
       foreignKey: 'userId'
     });
   };

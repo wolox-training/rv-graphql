@@ -11,22 +11,20 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        // field: 'user_id',
         references: {
           model: 'User',
-          key: 'id',
-          as: 'userId'
-        }
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
       },
       albumId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        // field: 'album_id',
         references: {
           model: 'Album',
-          key: 'id',
-          as: 'albumId'
-        }
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
