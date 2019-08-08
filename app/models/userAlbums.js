@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         // field: 'user_id',
         references: {
-          model: 'Users',
+          model: 'User',
           key: 'id',
           as: 'userId'
         }
