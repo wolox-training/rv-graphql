@@ -5,21 +5,21 @@ const mySuperPassword = 'mySuperPassword';
 module.exports = {
   up: queryInterface =>
     queryInterface.bulkInsert(
-      'User',
+      'users',
       [
         {
           id: 1,
-          firstName: 'John',
-          lastName: 'Doe',
+          first_name: 'John',
+          last_name: 'Doe',
           username: 'theJohnDoe',
           email: 'john.doe@wolox.com.ar',
           password: encryptPassword(mySuperPassword),
-          createdAt: '2016-06-22 19:10:25-07',
-          updatedAt: '2016-06-22 19:10:25-07',
-          deletedAt: '2016-06-22 19:10:25-07'
+          created_at: '2016-06-22 19:10:25-07',
+          updated_at: '2016-06-22 19:10:25-07',
+          deleted_at: '2016-06-22 19:10:25-07'
         }
       ],
       {}
     ),
-  down: queryInterface => queryInterface.bulkDelete('User')
+  down: queryInterface => queryInterface.bulkDelete('users')
 };

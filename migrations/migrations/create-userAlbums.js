@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('UserAlbums', {
+    queryInterface.createTable('user_albums', {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -11,8 +11,9 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        field: 'user_id',
         references: {
-          model: 'User',
+          model: 'users',
           key: 'id'
         },
         onDelete: 'CASCADE'
@@ -20,24 +21,28 @@ module.exports = {
       albumId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        field: 'album_id',
         references: {
-          model: 'Album',
+          model: 'albums',
           key: 'id'
         },
         onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
+        field: 'created_at',
         type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
+        field: 'updated_at',
         type: Sequelize.DATE
       },
       deletedAt: {
-        allowNull: false,
+        // allowNull: false,
+        field: 'deleted_at',
         type: Sequelize.DATE
       }
     }),
-  down: queryInterface => queryInterface.dropTable('UserAlbums')
+  down: queryInterface => queryInterface.dropTable('user_albums')
 };

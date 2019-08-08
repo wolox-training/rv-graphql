@@ -2,18 +2,18 @@
 module.exports = {
   up: queryInterface =>
     queryInterface.bulkInsert(
-      'UserAlbums',
+      'user_albums',
       [
         {
           id: 1,
-          userId: 1,
-          albumId: 1,
-          createdAt: '2016-06-22 19:10:25-07',
-          updatedAt: '2016-06-22 19:10:25-07',
-          deletedAt: '2016-06-22 19:10:25-07'
+          user_id: 1,
+          album_id: 1,
+          created_at: '2016-06-22 19:10:25-07',
+          updated_at: '2016-06-22 19:10:25-07',
+          deleted_at: '2016-06-22 19:10:25-07'
         }
       ],
       {}
     ),
-  down: queryInterface => queryInterface.bulkDelete('UserAlbums')
+  down: queryInterface => queryInterface.bulkDelete('user_albums')
 };

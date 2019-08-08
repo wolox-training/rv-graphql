@@ -1,15 +1,22 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Album = sequelize.define('Album', {
-    originalAlbumId: DataTypes.INTEGER,
-    originalUserId: DataTypes.INTEGER,
-    title: DataTypes.STRING
-  });
+  const Album = sequelize.define(
+    'albums',
+    {
+      originalAlbumId: { type: DataTypes.INTEGER, field: 'original_album_id' },
+      originalUserId: { type: DataTypes.INTEGER, field: 'original_user_id' },
+      title: DataTypes.STRING,
+      createdAt: { type: DataTypes.DATE, field: 'created_at' },
+      updatedAt: { type: DataTypes.DATE, field: 'updated_at' },
+      deletedAt: { type: DataTypes.DATE, field: 'deleted_at' }
+    },
+    { tableName: 'albums', paranoid: true, underscored: true }
+  );
 
   Album.associate = models => {
-    Album.belongsToMany(models.User, {
+    Album.belongsToMany(models.users, {
       as: 'users',
-      through: 'UserAlbums',
+      through: 'user_albums',
       foreignKey: 'albumId'
     });
   };

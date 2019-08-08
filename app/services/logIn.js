@@ -1,5 +1,5 @@
 /* eslint-disable curly */
-const { user: User } = require('../models');
+const { users: User } = require('../models');
 const { checkPassword } = require('../helpers/encryption');
 const { signToken } = require('../helpers/token');
 

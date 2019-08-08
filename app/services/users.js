@@ -1,7 +1,7 @@
 /* eslint-disable curly */
 const { encryptPasswordAsync } = require('../helpers/encryption');
 const logger = require('../logger/index');
-const { user: User } = require('../models');
+const { users: User } = require('../models');
 const { validateEmailAndPassword } = require('./validators/users');
 const { internalServerError } = require('../errors');
 const { badRequest } = require('../errors');
