@@ -38,9 +38,9 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = models => {
     User.belongsToMany(models.albums, {
-      as: 'albums',
-      through: 'user_albums',
-      foreignKey: 'userId'
+      through: 'user_albums'
+      // as: 'albums'
+      // foreignKey: 'user_id'
     });
   };
 

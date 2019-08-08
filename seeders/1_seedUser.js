@@ -16,7 +16,7 @@ module.exports = {
           password: encryptPassword(mySuperPassword),
           created_at: '2016-06-22 19:10:25-07',
           updated_at: '2016-06-22 19:10:25-07',
-          deleted_at: '2016-06-22 19:10:25-07'
+          deleted_at: null
         }
       ],
       {}
