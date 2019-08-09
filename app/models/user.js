@@ -54,19 +54,5 @@ module.exports = (sequelize, DataTypes) => {
 
   User.prototype.updateModel = props => this.update(props);
 
-  // User.getAllAll = (user, albumModel) =>
-  //   User.findAll({
-  //     include: [
-  //       {
-  //         model: albumModel,
-  //         as: 'albums',
-  //         required: false,
-  //         attributes: ['id', 'name'],
-  //         through: { attributes: [] }
-  //       }
-  //     ],
-  //     where: { user }
-  //   });
-
   return User;
 };

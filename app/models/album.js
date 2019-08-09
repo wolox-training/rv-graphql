@@ -31,6 +31,8 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  Album.createModel = album => Album.create(album);
+
   Album.getOne = album => Album.findOne({ where: album });
 
   Album.getAll = () => Album.findAll();
