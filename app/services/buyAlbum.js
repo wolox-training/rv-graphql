@@ -24,13 +24,13 @@ const buyAlbum = async () => {
   // const found =
   await User.findAll({
     include: [
-      Album
-      // {
-      //   model: Album,
-      //   through: { attributes: [] },
-      //   // as: 'albums'
-      //   attributes: ['id', 'title']
-      // }
+      // Album
+      {
+        model: Album,
+        // through: { attributes: [] },
+        as: 'albums'
+        //   attributes: ['id', 'title']
+      }
     ]
   }).then(users => {
     users.forEach(user => {

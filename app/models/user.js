@@ -31,16 +31,16 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: 'users',
-      paranoid: true,
+      // paranoid: true,
       underscored: true
     }
   );
 
   User.associate = models => {
     User.belongsToMany(models.albums, {
-      through: 'user_albums'
-      // as: 'albums'
-      // foreignKey: 'user_id'
+      through: 'user_albums',
+      as: 'albums',
+      foreignKey: 'userId'
     });
   };
 
