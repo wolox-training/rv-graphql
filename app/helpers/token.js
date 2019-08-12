@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { secret } = require('../../config/constants');
-const logger = require('../logger/index');
+const logger = require('../logger');
 const { JWT_EXPIRATION_TIME } = require('../../config/environment');
 
 const signToken = username => jwt.sign({ username }, secret, { expiresIn: parseInt(JWT_EXPIRATION_TIME) });

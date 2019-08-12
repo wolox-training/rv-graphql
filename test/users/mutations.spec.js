@@ -1,11 +1,9 @@
 const { mutate } = require('../server.spec'),
   { createUser, login } = require('./graphql'),
   userFactory = require('../factories/user'),
-  { checkPassword } = require('../../app/helpers/encryption');
-const { encryptPassword } = require('../../app/helpers/encryption');
+  { checkPassword, encryptPassword } = require('../../app/helpers/encryption');
 const { JWT_EXPIRATION_TIME } = require('../../config/environment');
 const { verifyToken } = require('../../app/helpers/token');
-// const { user: User } = require('../../app/models');
 
 describe('users', () => {
   beforeEach(() => userFactory.cleanUp());
