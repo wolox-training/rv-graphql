@@ -3,8 +3,8 @@ const { albumQueryResolver, albumsQueryResolver } = require('./resolvers');
 
 module.exports = {
   queries: {
-    album: albumQueryResolver,
-    albums: albumsQueryResolver
+    album: (_, { params }) => albumQueryResolver(params),
+    albums: (_, { params }) => albumsQueryResolver(params)
   },
   schema: gql`
     extend type Query {
