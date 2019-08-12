@@ -12,6 +12,7 @@ module.exports = gql`
     email: String!
     password: String!
     id: ID!
+    albums: [Album]
   }
   type AccessToken {
     accessToken: String!

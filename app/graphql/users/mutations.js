@@ -7,13 +7,13 @@ module.exports = {
   mutations: {
     createUser: (_, { user }) => createUser(user),
     login: (_, { credentials }) => signInQuery(credentials),
-    buyAlbum: (_, { albumId }) => buyAlbum(albumId)
+    buyAlbum: (_, { albumId, user }) => buyAlbum(albumId, user)
   },
   schema: gql`
     extend type Mutation {
       createUser(user: UserInput!): User!
       login(credentials: LoginInput!): AccessToken
-      buyAlbum(albumId: Int!): Album
+      buyAlbum(albumId: Int!, user: UserInput!): Album
     }
   `
 };
