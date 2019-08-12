@@ -5,23 +5,15 @@ const { user: User } = require('../models');
 const { validateEmailAndPassword } = require('./validators/users');
 const { defaultError } = require('../errors');
 const { badRequest } = require('../errors');
-
-const splitName = string => {
-  const words = string.split(' ');
-  const nWords = words.length;
-  return { firstName: words.slice(0, nWords - 1).join(), lastName: words[nWords - 1] };
-};
+const { splitName } = require('../helpers/deprecation');
 
 const createUser = async user => {
   try {
     const validationErrors = validateEmailAndPassword(user).errors;
-    if (validationErrors.length) {
-      return defaultError(validationErrors);
-    }
 
-    if (!user.name && !(user.firstName && user.firstName)) {
+    if (validationErrors.length) return defaultError(validationErrors);
+    if (!user.name && !(user.firstName && user.firstName))
       return badRequest('The name of the user was not formulated correctly');
-    }
 
     const encryptedPassword = await encryptPasswordAsync(user.password);
     user.password = encryptedPassword;
