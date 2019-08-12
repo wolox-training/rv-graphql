@@ -5,13 +5,13 @@ module.exports = gql`
   type Mutation
   type Subscription
   type User {
+    id: ID!
     name: String
     firstName: String @deprecated(reason: "Fused with lastName into name.")
     lastName: String @deprecated(reason: "Fused with firstName into name.")
     username: String!
     email: String!
     password: String!
-    id: ID!
     albums: [Album]
   }
   type AccessToken {
@@ -20,14 +20,15 @@ module.exports = gql`
     expiresIn: Int!
   }
   type Album {
-    userId: Int!
+    id: ID!
+    originalAlbumId: Int!
+    originalUserId: Int!
     title: String!
     photos: [Photo!]
-    id: ID!
   }
   type Photo {
-    albumId: Int!
     id: ID!
+    albumId: Int!
     url: String!
     thumbnailUrl: String!
   }

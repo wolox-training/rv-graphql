@@ -1,13 +1,13 @@
 const { gql } = require('apollo-server'),
   { createUser } = require('../../services/users');
 const { signInQuery } = require('../../services/signInQuery');
-const { buyAlbum } = require('../../services/buyAlbum');
+const { buyAlbumForUser } = require('../../services/buyAlbum');
 
 module.exports = {
   mutations: {
     createUser: (_, { user }) => createUser(user),
     login: (_, { credentials }) => signInQuery(credentials),
-    buyAlbum: (_, { albumId, user }) => buyAlbum(albumId, user)
+    buyAlbum: (_, { albumId, user }) => buyAlbumForUser(albumId, user)
   },
   schema: gql`
     extend type Mutation {

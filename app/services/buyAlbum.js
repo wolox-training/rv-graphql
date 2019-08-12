@@ -1,36 +1,29 @@
 const { users: User } = require('../models');
 const { albums: Album } = require('../models');
 const { getAlbumById } = require('./albums');
+const { badRequest } = require('../errors');
 
 const getAlbumsFromUser = async user => {
-  console.log(user);
-  const usersObject = await User.findAll({
+  const userObject = await User.findOne({
     where: { username: user },
     include: [{ model: Album, as: 'albums' }]
   });
 
-  return usersObject.map(userObject =>
-    userObject.get().albums.map(albumObject => ({
-      id: albumObject.id,
-      originalAlbumId: albumObject.originalAlbumId,
-      originalUserId: albumObject.originalUserId,
-      title: albumObject.title
-    }))
-  );
+  const albumsArray = userObject.dataValues.albums;
+
+  return albumsArray.map(albumObject => {
+    const album = albumObject.get();
+    return {
+      id: album.id,
+      originalAlbumId: album.originalAlbumId,
+      originalUserId: album.originalUserId,
+      title: album.title
+    };
+  });
 };
 
-// const buyAlbumForUser = async user => {
-//   const createdUser = await User.createModel(user, {
-//     include: [{ model: Album, as: 'albums', through: { attributes: [] } }]
-//   });
-//   console.log(createdUser);
-// };
-
-const buyAlbum = async (albumId, user) => {
-  console.log('hola');
-  console.log(user);
+const buyAlbumForUser = async (albumId, user) => {
   const userObject = await User.getOne({ username: user.username });
-  console.log(userObject);
 
   let albumInTheDB = await Album.getOne({ originalAlbumId: albumId });
 
@@ -43,17 +36,16 @@ const buyAlbum = async (albumId, user) => {
     });
   }
 
-  console.log(await userObject.addAlbum(albumInTheDB));
+  const albumsFromUser = await getAlbumsFromUser(userObject.dataValues.username);
 
-  console.log(albumInTheDB.dataValues);
-  // return album.dataValues;
-  console.log('chau');
+  const userHasTheAlbum = albumsFromUser.find(element => element.originalAlbumId === albumId);
 
-  return {
-    id: albumInTheDB.id,
-    userId: albumInTheDB.originalUserId,
-    title: albumInTheDB.title
-  };
+  if (userHasTheAlbum === undefined) {
+    await userObject.addAlbum(albumInTheDB);
+    return albumInTheDB;
+  }
+
+  return badRequest('Album already bougth');
 };
 
-module.exports = { buyAlbum, getAlbumsFromUser };
+module.exports = { buyAlbumForUser, getAlbumsFromUser };
