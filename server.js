@@ -4,7 +4,7 @@ const { ApolloServer } = require('apollo-server'),
   migrationsManager = require('./migrations'),
   logger = require('./app/logger'),
   schema = require('./app/graphql');
-// const { verifyToken } = require('./app/helpers/token');
+const { verifyToken } = require('./app/helpers/token');
 
 const port = config.common.api.port || 8080;
 
@@ -17,19 +17,12 @@ migrationsManager
       environment: config.common.rollbar.environment || config.environment
     }); */
     new ApolloServer({
-      schema
-      // ,
-      // context: ({ req }) => {
-      //   const token =
-      //     req.headers.authorization ||
-      //     '' ||
-      //     (req.body && req.body.access_token) ||
-      //     (req.query && req.query.access_token) ||
-      //     req.headers['x-access-token'];
-
-      //   const user = verifyToken(token);
-      //   return { user };
-      // }
+      schema,
+      context: ({ req }) => {
+        const token = req.headers.authorization || '';
+        const user = verifyToken(token);
+        return { user };
+      }
     })
       .listen(port)
       .then(({ url, subscriptionsUrl }) => {

@@ -22,7 +22,9 @@ const getAlbumsFromUser = async user => {
   });
 };
 
-const buyAlbumForUser = async (albumId, user) => {
+const buyAlbumForUser = async (albumId, context) => {
+  console.log(context);
+  const { user } = context;
   const userObject = await User.getOne({ username: user.username });
 
   let albumInTheDB = await Album.getOne({ originalAlbumId: albumId });
