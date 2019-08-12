@@ -40,7 +40,6 @@ const login = loginInput => ({
     mutation login($loginInput: LoginInput!) {
       login(credentials: $loginInput) {
         accessToken
-        refreshToken
         expiresIn
       }
     }

@@ -142,7 +142,6 @@ describe('users', () => {
             mutate(login({ username: 'carlos', password: 'mysuperpassword' })).then(res => {
               const data = res.data.login;
               expect(verifyToken(data.accessToken).username).toEqual(user.username);
-              expect(data.refreshToken).toEqual('example_refresh_token');
               expect(data.expiresIn).toEqual(parseInt(JWT_EXPIRATION_TIME));
             })
           );
