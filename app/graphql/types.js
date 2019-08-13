@@ -41,9 +41,10 @@ module.exports = gql`
     originalAlbumId: Int!
     originalUserId: Int!
     title: String!
-    photos: [Photo!] @cacheControl(maxAge: 1000)
+    photos: [Photo!] @cacheControl(maxAge: 5)
+    owners: [User]
   }
-  type Photo @cacheControl(maxAge: 1000) {
+  type Photo {
     id: ID!
     albumId: Int!
     url: String!

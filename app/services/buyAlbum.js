@@ -23,6 +23,17 @@ const getAlbumsFromUser = async user => {
   });
 };
 
+const getOwnersFromAlbum = async album => {
+  const albumObject = await Album.findOne({
+    where: { originalAlbumId: album },
+    include: [{ model: User, as: 'users' }]
+  });
+
+  const usersArray = albumObject.dataValues.users;
+
+  return usersArray.map(userObject => userObject.get());
+};
+
 const buyAlbumForUser = async (albumId, context) => {
   const { user } = context;
   const userObject = await User.getOne({ username: user.username });
@@ -52,4 +63,4 @@ const buyAlbumForUser = async (albumId, context) => {
   return badRequest('Album already purchased');
 };
 
-module.exports = { buyAlbumForUser, getAlbumsFromUser };
+module.exports = { buyAlbumForUser, getAlbumsFromUser, getOwnersFromAlbum };
