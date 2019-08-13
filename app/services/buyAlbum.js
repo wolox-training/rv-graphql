@@ -1,3 +1,4 @@
+/* eslint-disable curly */
 const { users: User } = require('../models');
 const { albums: Album } = require('../models');
 const { getAlbumById } = require('./albums');
@@ -26,6 +27,8 @@ const buyAlbumForUser = async (albumId, context) => {
   const { user } = context;
   const userObject = await User.getOne({ username: user.username });
 
+  if (!userObject) return badRequest('The user is not logged in!');
+
   let albumInTheDB = await Album.getOne({ originalAlbumId: albumId });
 
   if (albumInTheDB === null) {
@@ -46,7 +49,7 @@ const buyAlbumForUser = async (albumId, context) => {
     return albumInTheDB;
   }
 
-  return badRequest('Album already bougth');
+  return badRequest('Album already purchased');
 };
 
 module.exports = { buyAlbumForUser, getAlbumsFromUser };

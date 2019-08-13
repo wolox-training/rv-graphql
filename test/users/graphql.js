@@ -48,4 +48,17 @@ const login = loginInput => ({
   variables: { loginInput }
 });
 
-module.exports = { getUser, getUsers, createUser, login };
+const buyAlbum = albumId => ({
+  mutation: gql`
+    mutation buyAlbum($albumId: Int!) {
+      buyAlbum(albumId: $albumId) {
+        originalUserId
+        originalAlbumId
+        title
+      }
+    }
+  `,
+  variables: { albumId }
+});
+
+module.exports = { getUser, getUsers, createUser, login, buyAlbum };
