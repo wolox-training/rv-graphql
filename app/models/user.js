@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: 'users',
-      // paranoid: true,
+      paranoid: true,
       underscored: true
     }
   );

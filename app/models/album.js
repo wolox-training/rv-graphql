@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: 'albums',
-      // paranoid: true,
+      paranoid: true,
       underscored: true
     }
   );
