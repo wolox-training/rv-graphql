@@ -1,8 +1,7 @@
 const { mutate, apolloServer } = require('../server.spec'),
   { createUser, login, buyAlbum } = require('./graphql'),
   userFactory = require('../factories/user'),
-  { checkPassword } = require('../../app/helpers/encryption');
-const { encryptPassword } = require('../../app/helpers/encryption');
+  { checkPassword, encryptPassword } = require('../../app/helpers/encryption');
 const { JWT_EXPIRATION_TIME } = require('../../config/environment');
 const { verifyToken } = require('../../app/helpers/token');
 
@@ -141,7 +140,6 @@ describe('users', () => {
             mutate(login({ username: 'carlos', password: 'mysuperpassword' })).then(res => {
               const data = res.data.login;
               expect(verifyToken(data.accessToken).username).toEqual(user.username);
-              expect(data.refreshToken).toEqual('example_refresh_token');
               expect(data.expiresIn).toEqual(parseInt(JWT_EXPIRATION_TIME));
             })
           );

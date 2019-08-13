@@ -4,25 +4,17 @@ const logger = require('../logger/index');
 const { users: User } = require('../models');
 const { albums: Album } = require('../models');
 const { validateEmailAndPassword } = require('./validators/users');
-const { internalServerError } = require('../errors');
-const { badRequest } = require('../errors');
-
-const splitName = string => {
-  const words = string.split(' ');
-  const nWords = words.length;
-  return { firstName: words.slice(0, nWords - 1).join(), lastName: words[nWords - 1] };
-};
+const { badRequest, internalServerError } = require('../errors');
+const { splitName } = require('../helpers/deprecation');
+const { signToken } = require('../helpers/token');
 
 const createUser = async user => {
   try {
     const validationErrors = validateEmailAndPassword(user).errors;
-    if (validationErrors.length) {
-      return internalServerError(validationErrors);
-    }
 
-    if (!user.name && !(user.firstName && user.firstName)) {
+    if (validationErrors.length) return internalServerError(validationErrors);
+    if (!user.name && !(user.firstName && user.firstName))
       return badRequest('The name of the user was not formulated correctly');
-    }
 
     const encryptedPassword = await encryptPasswordAsync(user.password);
     user.password = encryptedPassword;
@@ -48,4 +40,9 @@ const createUser = async user => {
   }
 };
 
-module.exports = { createUser };
+const signIn = user => {
+  const { username } = user;
+  return signToken(username);
+};
+
+module.exports = { createUser, signIn };
