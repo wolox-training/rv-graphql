@@ -38,9 +38,6 @@ const photoFromAlbumByIdLoader = new DataLoader(keys => Promise.all(keys.map(get
 
 module.exports = {
   getAllAlbums,
-  getAlbumById,
-  getPhotosFromAlbum,
-  getPhotoFromAlbumById,
   allAlbumsLoader,
   albumByIdLoader,
   photosFromAlbumLoader,

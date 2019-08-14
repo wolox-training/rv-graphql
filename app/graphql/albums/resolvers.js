@@ -1,6 +1,6 @@
 /* eslint-disable no-return-await */
 /* eslint-disable curly */
-const { getAllAlbums, getAlbumById, photosFromAlbumLoader } = require('../../services/albums');
+const { allAlbumsLoader, albumByIdLoader, photosFromAlbumLoader } = require('../../services/albums');
 const { getOwnersFromAlbum } = require('../../services/buyAlbum');
 const { sortArray } = require('../../helpers/sorting');
 
@@ -8,7 +8,7 @@ const filterAlbums = (array, query) =>
   array.filter(element => element.title.toLowerCase().indexOf(query.toLowerCase()) !== -1);
 
 const albumQueryResolver = async params => {
-  const album = (await getAlbumById(params.id)).body;
+  const album = (await albumByIdLoader.load(params.id)).body;
   return { originalAlbumId: album.id, originalUserId: album.userId, title: album.title };
 };
 
@@ -16,7 +16,7 @@ const albumsQueryResolver = async params => {
   let { page, limit } = params;
   const { sortingKey, sortingOrder, filteringString } = params;
 
-  const originalAlbums = (await getAllAlbums()).body;
+  const originalAlbums = (await allAlbumsLoader.load()).body;
 
   let albums = originalAlbums.map(album => ({
     originalAlbumId: album.id,

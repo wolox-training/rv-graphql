@@ -1,7 +1,7 @@
 /* eslint-disable curly */
 const { users: User } = require('../models');
 const { albums: Album } = require('../models');
-const { getAlbumById } = require('./albums');
+const { albumByIdLoader } = require('./albums');
 const { badRequest } = require('../errors');
 
 const getAlbumsFromUser = async user => {
@@ -43,7 +43,7 @@ const buyAlbumForUser = async (albumId, context) => {
   let albumInTheDB = await Album.getOne({ originalAlbumId: albumId });
 
   if (albumInTheDB === null) {
-    const receivedAlbum = (await getAlbumById(albumId)).body;
+    const receivedAlbum = (await albumByIdLoader.load(albumId)).body;
     albumInTheDB = await Album.createModel({
       originalAlbumId: receivedAlbum.id,
       originalUserId: receivedAlbum.userId,
