@@ -18,9 +18,6 @@ migrationsManager
     }); */
     new ApolloServer({
       schema,
-      cacheControl: {
-        defaultMaxAge: 5
-      },
       context: ({ req }) => {
         const token = req.headers.authorization || '';
         const user = verifyToken(token);

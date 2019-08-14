@@ -1,16 +1,10 @@
 const { gql } = require('apollo-server');
 
 module.exports = gql`
-  enum CacheControlScope {
-    PUBLIC
-    PRIVATE
-  }
-  directive @cacheControl(maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | OBJECT | INTERFACE
-
   type Query
   type Mutation
   type Subscription
-  type User @cacheControl(maxAge: 1000) {
+  type User {
     id: ID!
     # ---------------------------------------------------------------------------------------------------------------
     # Now, instead of using the firstName and lastName fields, the name field should be used. To ensure backward
@@ -24,24 +18,24 @@ module.exports = gql`
     # name: Wolfgang Amadeus Mozart
     # And it will be saved like it would have done before.
     # ---------------------------------------------------------------------------------------------------------------
-    name: String @cacheControl(maxAge: 1000)
+    name: String
     firstName: String @deprecated(reason: "Fused with lastName into name.")
     lastName: String @deprecated(reason: "Fused with firstName into name.")
     username: String!
     email: String!
     password: String!
-    albums: [Album] @cacheControl(maxAge: 1000)
+    albums: [Album]
   }
   type AccessToken {
     accessToken: String!
     expiresIn: Int!
   }
-  type Album @cacheControl(maxAge: 1000) {
+  type Album {
     id: ID!
     originalAlbumId: Int!
     originalUserId: Int!
     title: String!
-    photos: [Photo!] @cacheControl(maxAge: 5)
+    photos: [Photo!]
     owners: [User]
   }
   type Photo {
