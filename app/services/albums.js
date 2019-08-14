@@ -1,3 +1,5 @@
+const DataLoader = require('dataloader');
+
 const { ALBUMS_API_URL: url } = require('../../config/environment');
 const { request } = require('../helpers/request');
 
@@ -22,16 +24,25 @@ const getPhotosFromAlbum = id =>
     json: true
   });
 
-const getPhotoFromAlbumByIds = (idAlbum, idPhoto) =>
+const getPhotoFromAlbumById = (idAlbum, idPhoto) =>
   request({
     url: `${url}/photos?albumId=${idAlbum}&id=${idPhoto}`,
     method: 'get',
     json: true
   });
 
+const allAlbumsLoader = new DataLoader(keys => Promise.all(keys.map(getAllAlbums)));
+const albumByIdLoader = new DataLoader(keys => Promise.all(keys.map(getAlbumById)));
+const photosFromAlbumLoader = new DataLoader(keys => Promise.all(keys.map(getPhotosFromAlbum)));
+const photoFromAlbumByIdLoader = new DataLoader(keys => Promise.all(keys.map(getPhotoFromAlbumById)));
+
 module.exports = {
   getAllAlbums,
   getAlbumById,
   getPhotosFromAlbum,
-  getPhotoFromAlbumByIds
+  getPhotoFromAlbumById,
+  allAlbumsLoader,
+  albumByIdLoader,
+  photosFromAlbumLoader,
+  photoFromAlbumByIdLoader
 };
