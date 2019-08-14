@@ -16,7 +16,7 @@ const albumsQueryResolver = async params => {
   let { page, limit } = params;
   const { sortingKey, sortingOrder, filteringString } = params;
 
-  const originalAlbums = (await allAlbumsLoader.load()).body;
+  const originalAlbums = (await allAlbumsLoader.load(0)).body;
 
   let albums = originalAlbums.map(album => ({
     originalAlbumId: album.id,
