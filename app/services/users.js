@@ -1,8 +1,7 @@
 /* eslint-disable curly */
 const { encryptPasswordAsync } = require('../helpers/encryption');
 const logger = require('../logger/index');
-const { users: User } = require('../models');
-const { albums: Album } = require('../models');
+const { users: User, albums: Album } = require('../models');
 const { validateEmailAndPassword } = require('./validators/users');
 const { badRequest, internalServerError } = require('../errors');
 const { splitName } = require('../helpers/deprecation');

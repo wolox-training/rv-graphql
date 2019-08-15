@@ -1,6 +1,5 @@
 /* eslint-disable curly */
-const { users: User } = require('../models');
-const { albums: Album } = require('../models');
+const { users: User, albums: Album } = require('../models');
 const { getAlbumById } = require('./albums');
 const { badRequest } = require('../errors');
 
@@ -42,7 +41,7 @@ const buyAlbumForUser = async (albumId, context) => {
 
   const albumsFromUser = await getAlbumsFromUser(userObject.dataValues.username);
 
-  const userHasTheAlbum = albumsFromUser.find(element => element.originalAlbumId === albumId);
+  const userHasTheAlbum = albumsFromUser.find(album => album.originalAlbumId === albumId);
 
   if (userHasTheAlbum === undefined) {
     await userObject.addAlbum(albumInTheDB);
