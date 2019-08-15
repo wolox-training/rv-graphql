@@ -1,4 +1,6 @@
 /* eslint-disable curly */
+const DataLoader = require('dataloader');
+
 const { users: User } = require('../models');
 const { albums: Album } = require('../models');
 const { albumByIdLoader } = require('./albums');
@@ -34,6 +36,9 @@ const getOwnersFromAlbum = async album => {
   return usersArray.map(userObject => userObject.get());
 };
 
+const albumsFromUserLoader = new DataLoader(keys => Promise.all(keys.map(getAlbumsFromUser)));
+const ownersFromAlbumLoader = new DataLoader(keys => Promise.all(keys.map(getOwnersFromAlbum)));
+
 const buyAlbumForUser = async (albumId, context) => {
   const { user } = context;
   const userObject = await User.getOne({ username: user.username });
@@ -51,7 +56,7 @@ const buyAlbumForUser = async (albumId, context) => {
     });
   }
 
-  const albumsFromUser = await getAlbumsFromUser(userObject.dataValues.username);
+  const albumsFromUser = await albumsFromUserLoader.load(userObject.dataValues.username);
 
   const userHasTheAlbum = albumsFromUser.find(element => element.originalAlbumId === albumId);
 
@@ -63,4 +68,8 @@ const buyAlbumForUser = async (albumId, context) => {
   return badRequest('Album already purchased');
 };
 
-module.exports = { buyAlbumForUser, getAlbumsFromUser, getOwnersFromAlbum };
+module.exports = {
+  buyAlbumForUser,
+  albumsFromUserLoader,
+  ownersFromAlbumLoader
+};

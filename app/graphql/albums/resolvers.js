@@ -1,7 +1,7 @@
 /* eslint-disable no-return-await */
 /* eslint-disable curly */
 const { allAlbumsLoader, albumByIdLoader, photosFromAlbumLoader } = require('../../services/albums');
-const { getOwnersFromAlbum } = require('../../services/buyAlbum');
+const { ownersFromAlbumLoader } = require('../../services/buyAlbum');
 const { sortArray } = require('../../helpers/sorting');
 
 const filterAlbums = (array, query) =>
@@ -40,7 +40,7 @@ const albumsQueryResolver = async params => {
 module.exports = {
   albumFieldResolvers: {
     photos: async parent => (await photosFromAlbumLoader.load(parent.originalAlbumId)).body,
-    owners: async parent => await getOwnersFromAlbum(parent.originalAlbumId)
+    owners: async parent => await ownersFromAlbumLoader.load(parent.originalAlbumId)
   },
   albumQueryResolver,
   albumsQueryResolver
