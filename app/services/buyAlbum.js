@@ -30,7 +30,7 @@ const buyAlbumForUser = async (albumId, context) => {
 
   let albumInTheDB = await Album.getOne({ originalAlbumId: albumId });
 
-  if (albumInTheDB === null) {
+  if (!albumInTheDB) {
     const receivedAlbum = (await getAlbumById(albumId)).body;
     albumInTheDB = await Album.createModel({
       originalAlbumId: receivedAlbum.id,
@@ -43,7 +43,7 @@ const buyAlbumForUser = async (albumId, context) => {
 
   const userHasTheAlbum = albumsFromUser.find(album => album.originalAlbumId === albumId);
 
-  if (userHasTheAlbum === undefined) {
+  if (!userHasTheAlbum) {
     await userObject.addAlbum(albumInTheDB);
     return albumInTheDB;
   }
