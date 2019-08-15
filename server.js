@@ -6,6 +6,9 @@ const { ApolloServer } = require('apollo-server'),
   schema = require('./app/graphql'),
   { verifyToken } = require('./app/helpers/token');
 
+// import responseCachePlugin from 'apollo-server-plugin-response-cache';
+const responseCachePlugin = require('apollo-server-plugin-response-cache');
+
 const port = config.common.api.port || 8080;
 
 migrationsManager
@@ -18,6 +21,7 @@ migrationsManager
     }); */
     new ApolloServer({
       schema,
+      plugins: [responseCachePlugin()],
       context: ({ req }) => {
         const token = req.headers.authorization || '';
         const user = verifyToken(token);

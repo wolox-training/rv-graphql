@@ -1,10 +1,15 @@
 const { gql } = require('apollo-server');
 
 module.exports = gql`
+  enum CacheControlScope {
+    PUBLIC
+    PRIVATE
+  }
+  directive @cacheControl(maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | OBJECT | INTERFACE
   type Query
   type Mutation
   type Subscription
-  type User {
+  type User @cacheControl(maxAge: 24000) {
     id: ID!
     # ---------------------------------------------------------------------------------------------------------------
     # Now, instead of using the firstName and lastName fields, the name field should be used. To ensure backward
@@ -30,12 +35,13 @@ module.exports = gql`
     accessToken: String!
     expiresIn: Int!
   }
-  type Album {
+  type Album @cacheControl(maxAge: 24000) {
     id: ID!
     originalAlbumId: Int!
     originalUserId: Int!
     title: String!
     photos: [Photo!]
+    owners: [User]
   }
   type Photo {
     id: ID!

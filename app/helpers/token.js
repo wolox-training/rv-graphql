@@ -7,7 +7,7 @@ const signToken = username => jwt.sign({ username }, secret, { expiresIn: parseI
 
 const verifyToken = token => {
   try {
-    return jwt.verify(token, secret);
+    return token && jwt.verify(token, secret);
   } catch (error) {
     logger.error(error);
     return { errors: ['Unauthorized'] };
