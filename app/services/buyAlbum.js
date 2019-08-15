@@ -36,8 +36,8 @@ const getOwnersFromAlbum = async album => {
   return usersArray.map(userObject => userObject.get());
 };
 
-const albumsFromUserLoader = new DataLoader(keys => Promise.all(keys.map(getAlbumsFromUser)));
-const ownersFromAlbumLoader = new DataLoader(keys => Promise.all(keys.map(getOwnersFromAlbum)));
+const albumsFromUserLoader = new DataLoader(keys => Promise.resolve(keys.map(getAlbumsFromUser)));
+const ownersFromAlbumLoader = new DataLoader(keys => Promise.resolve(keys.map(getOwnersFromAlbum)));
 
 const buyAlbumForUser = async (albumId, context) => {
   const { user } = context;
