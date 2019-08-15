@@ -6,10 +6,6 @@ ApolloServer.prototype.setContext = function setContext(newContext) {
   this.context = newContext;
 };
 
-ApolloServer.prototype.resetContext = function resetContext() {
-  this.context = undefined;
-};
-
 const apolloServer = new ApolloServer({ schema });
 
 const { query: _query, mutate } = createTestClient(apolloServer);
