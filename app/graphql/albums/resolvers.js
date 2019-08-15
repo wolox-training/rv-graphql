@@ -37,7 +37,7 @@ const albumsQueryResolver = async params => {
 
 module.exports = {
   albumFieldResolvers: {
-    photos: async parent => (await getPhotosFromAlbum(parent.id)).body
+    photos: async parent => (await getPhotosFromAlbum(parent.originalAlbumId)).body
   },
   albumQueryResolver,
   albumsQueryResolver
