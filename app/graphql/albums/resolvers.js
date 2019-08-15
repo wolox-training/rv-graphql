@@ -5,13 +5,22 @@ const { sortArray } = require('../../helpers/sorting');
 const filterAlbums = (array, query) =>
   array.filter(element => element.title.toLowerCase().indexOf(query.toLowerCase()) !== -1);
 
-const albumQueryResolver = async params => (await getAlbumById(params.id)).body;
+const albumQueryResolver = async params => {
+  const album = (await getAlbumById(params.id)).body;
+  return { originalAlbumId: album.id, originalUserId: album.userId, title: album.title };
+};
 
 const albumsQueryResolver = async params => {
   let { page, limit } = params;
   const { sortingKey, sortingOrder, filteringString } = params;
 
-  let albums = (await getAllAlbums()).body;
+  const originalAlbums = (await getAllAlbums()).body;
+
+  let albums = originalAlbums.map(album => ({
+    originalAlbumId: album.id,
+    originalUserId: album.userId,
+    title: album.title
+  }));
 
   if (filteringString) albums = filterAlbums(albums, filteringString);
   if (sortingKey === 'title' && sortingOrder) sortArray(albums, sortingKey, sortingOrder);
