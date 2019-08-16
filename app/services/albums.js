@@ -34,27 +34,27 @@ const getPhotoFromAlbumById = (idAlbum, idPhoto) =>
 
 const client = redis.createClient();
 
-const redisLoader = new DataLoader(
+const allAlbumsLoader = new DataLoader(
   keys =>
     new Promise((resolve, reject) => {
-      client.mget(keys, (error, results) => {
+      client.mget(['sessions started', 'sessions started', 'foo'], (err, res) => {
+        console.dir(res);
+        console.log('hola', res);
+      });
+      client.mget(keys, error => {
+        console.log(keys);
         if (error) {
           return reject(error);
         }
-        return resolve(
-          results.map((result, index) => {
-            if(result !== null) {
-              return result
-            } else {
-              return new Error(`No key: ${keys[index]}`)
-            }}))}})
+        console.log('resolving');
+        return resolve(keys.map(getAllAlbums));
       });
     })
 );
 
 console.log(client);
 
-const allAlbumsLoader = new DataLoader(keys => Promise.resolve(client.mget(keys.map(getAllAlbums))));
+// const allAlbumsLoader = new DataLoader(keys => Promise.resolve(keys.map(getAllAlbums)));
 const albumByIdLoader = new DataLoader(keys => Promise.resolve(keys.map(getAlbumById)));
 const photosFromAlbumLoader = new DataLoader(keys => Promise.resolve(keys.map(getPhotosFromAlbum)));
 const photoFromAlbumByIdLoader = new DataLoader(keys => Promise.resolve(keys.map(getPhotoFromAlbumById)));
