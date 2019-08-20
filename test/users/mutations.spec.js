@@ -1,5 +1,5 @@
-const { mutate } = require('../server.spec'),
-  { createUser, login } = require('./graphql'),
+const { mutate, apolloServer } = require('../server.spec'),
+  { createUser, login, buyAlbum } = require('./graphql'),
   userFactory = require('../factories/user'),
   { checkPassword, encryptPassword } = require('../../app/helpers/encryption');
 const { JWT_EXPIRATION_TIME } = require('../../config/environment');
@@ -143,6 +143,39 @@ describe('users', () => {
               expect(data.expiresIn).toEqual(parseInt(JWT_EXPIRATION_TIME));
             })
           );
+      });
+    });
+    describe('buy album', () => {
+      beforeEach(() => userFactory.cleanUp());
+      afterEach(() => userFactory.cleanUp());
+
+      it('should return purchased album', async () => {
+        const user = await userFactory.create({
+          username: 'carlos',
+          password: encryptPassword('mysuperpassword')
+        });
+        await apolloServer.setContext({ user });
+        const data = await mutate(await buyAlbum(5));
+        expect(data.data.buyAlbum.originalAlbumId).toEqual(5);
+        expect(data.data.buyAlbum.originalUserId).toEqual(1);
+        expect(data.data.buyAlbum.title).toEqual('eaque aut omnis a');
+      });
+
+      it('should return album already purchased', async () => {
+        const user = await userFactory.create({
+          username: 'carlos',
+          password: encryptPassword('mysuperpassword')
+        });
+        await apolloServer.setContext({ user });
+        await mutate(await buyAlbum(5));
+        const data = await mutate(await buyAlbum(5));
+        expect(data.errors[0].message).toEqual('Album already purchased');
+      });
+
+      it('should return user not logged in', async () => {
+        await mutate(await buyAlbum(5));
+        const data = await mutate(await buyAlbum(5));
+        expect(data.errors[0].message).toEqual('The user is not logged in!');
       });
     });
   });

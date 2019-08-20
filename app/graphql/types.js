@@ -5,6 +5,7 @@ module.exports = gql`
   type Mutation
   type Subscription
   type User {
+    id: ID!
     # ---------------------------------------------------------------------------------------------------------------
     # Now, instead of using the firstName and lastName fields, the name field should be used. To ensure backward
     # compatibility and not introduce breaker changes, it will continue to be saved in the database as firstName
@@ -23,21 +24,22 @@ module.exports = gql`
     username: String!
     email: String!
     password: String!
-    id: ID!
+    albums: [Album]
   }
   type AccessToken {
     accessToken: String!
     expiresIn: Int!
   }
   type Album {
-    userId: Int!
+    id: ID!
+    originalAlbumId: Int!
+    originalUserId: Int!
     title: String!
     photos: [Photo!]
-    id: ID!
   }
   type Photo {
-    albumId: Int!
     id: ID!
+    albumId: Int!
     url: String!
     thumbnailUrl: String!
   }

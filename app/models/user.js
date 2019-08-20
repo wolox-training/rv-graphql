@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    'user',
+    'users',
     {
       firstName: {
         type: DataTypes.STRING,
@@ -23,7 +23,10 @@ module.exports = (sequelize, DataTypes) => {
       password: {
         type: DataTypes.STRING,
         allowNull: false
-      }
+      },
+      createdAt: { type: DataTypes.DATE, field: 'created_at' },
+      updatedAt: { type: DataTypes.DATE, field: 'updated_at' },
+      deletedAt: { type: DataTypes.DATE, field: 'deleted_at' }
     },
     {
       tableName: 'users',
@@ -31,6 +34,14 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true
     }
   );
+
+  User.associate = models => {
+    User.belongsToMany(models.albums, {
+      through: 'user_albums',
+      as: 'albums',
+      foreignKey: 'userId'
+    });
+  };
 
   User.createModel = user => User.create(user);
 

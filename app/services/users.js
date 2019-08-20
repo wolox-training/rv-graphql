@@ -1,7 +1,7 @@
 /* eslint-disable curly */
 const { encryptPasswordAsync } = require('../helpers/encryption');
 const logger = require('../logger/index');
-const { user: User } = require('../models');
+const { users: User, albums: Album } = require('../models');
 const { validateEmailAndPassword } = require('./validators/users');
 const { badRequest, internalServerError } = require('../errors');
 const { splitName } = require('../helpers/deprecation');
@@ -25,7 +25,9 @@ const createUser = async user => {
       delete user.name;
     }
 
-    const createdUser = await User.createModel(user);
+    const createdUser = await User.createModel(user, {
+      include: [{ model: Album, as: 'albums', through: { attributes: [] } }]
+    });
     logger.info(
       `The user ${user.firstName} ${user.lastName} was successfully created ${JSON.stringify(createdUser)}`
     );

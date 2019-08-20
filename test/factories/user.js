@@ -1,9 +1,9 @@
 const { factory } = require('factory-girl'),
   faker = require('faker'),
   models = require('../../app/models'),
-  { user: User } = models;
+  { users: User } = models;
 
-factory.define('user', User, {
+factory.define('User', User, {
   firstName: () => faker.name.firstName(),
   lastName: () => faker.name.lastName(),
   email: () => `${faker.name.lastName()}@wolox.com.ar`,
@@ -12,9 +12,9 @@ factory.define('user', User, {
 });
 
 module.exports = {
-  create: params => factory.create('user', params),
-  createMany: () => factory.createMany('user', 5),
-  build: params => factory.build('user', params),
-  attributes: params => factory.attrs('user', params),
+  create: params => factory.create('User', params),
+  createMany: () => factory.createMany('User', 5),
+  build: params => factory.build('User', params),
+  attributes: params => factory.attrs('User', params),
   cleanUp: () => factory.cleanUp()
 };
