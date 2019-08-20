@@ -1,4 +1,3 @@
-'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) =>
     queryInterface.createTable('user_albums', {
@@ -39,7 +38,6 @@ module.exports = {
         type: Sequelize.DATE
       },
       deletedAt: {
-        // allowNull: false,
         field: 'deleted_at',
         type: Sequelize.DATE
       }

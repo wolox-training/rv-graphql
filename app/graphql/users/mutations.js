@@ -1,7 +1,7 @@
 const { gql } = require('apollo-server'),
-  { createUser } = require('../../services/users');
-const { signInQuery } = require('../../services/signInQuery');
-const { buyAlbumForUser } = require('../../services/buyAlbum');
+  { createUser } = require('../../services/users'),
+  { signInQuery } = require('../../services/signInQuery'),
+  { buyAlbumForUser } = require('../../services/buyAlbum');
 
 module.exports = {
   mutations: {
