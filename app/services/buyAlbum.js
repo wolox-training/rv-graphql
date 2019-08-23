@@ -1,5 +1,6 @@
 /* eslint-disable curly */
 const DataLoader = require('dataloader');
+const { get } = require('lodash');
 
 const { users: User, albums: Album } = require('../models');
 const { albumByIdLoader } = require('./albums');
@@ -30,9 +31,7 @@ const getOwnersFromAlbum = async album => {
     include: [{ model: User, as: 'users' }]
   });
 
-  const usersArray = albumObject.dataValues.users;
-
-  return usersArray.map(userObject => userObject.get());
+  return get(albumObject, 'dataValues.users', []).map(userObject => userObject.get());
 };
 
 const albumsFromUserLoader = new DataLoader(keys => Promise.all(keys.map(getAlbumsFromUser)));
