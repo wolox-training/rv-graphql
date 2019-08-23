@@ -12,7 +12,7 @@ const getAlbumsFromUser = async user => {
     include: [{ model: Album, as: 'albums' }]
   });
 
-  const albumsArray = get(userObject, 'dataValues.albums', []);
+  const albumsArray = get(userObject, 'dataValues.albums');
 
   return albumsArray.map(albumObject => {
     const album = albumObject.get();
@@ -54,7 +54,7 @@ const buyAlbumForUser = async (albumId, context) => {
     });
   }
 
-  const albumsFromUser = await albumsFromUserLoader.load(get(userObject, 'dataValues.username', []));
+  const albumsFromUser = await albumsFromUserLoader.load(get(userObject, 'dataValues.username'));
 
   const userHasTheAlbum = albumsFromUser.find(album => album.originalAlbumId === albumId);
 

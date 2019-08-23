@@ -6,11 +6,8 @@ const { sortArray } = require('../../helpers/sorting');
 const { internalServerError } = require('../../errors');
 const logger = require('../../logger');
 
-const filterAlbums = (array, query) => {
-  if (query) return array.filter(element => element.title.toLowerCase().indexOf(query.toLowerCase()) !== -1);
-
-  return array;
-};
+const filterAlbums = (array, query) =>
+  query ? array.filter(element => element.title.toLowerCase().indexOf(query.toLowerCase()) !== -1) : array;
 
 const sliceAlbums = (paramPage, paramLimit, albums) => {
   let page = paramPage;

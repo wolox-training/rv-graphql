@@ -37,7 +37,7 @@ const isLoginValid = async user => {
     return errors;
   }
 
-  if (!checkPassword(password, get(obtainedUser, 'dataValues.password', [])))
+  if (!checkPassword(password, get(obtainedUser, 'dataValues.password')))
     errors.push(`The password for the user with the username: ${username} was wrong.`);
 
   return errors;
