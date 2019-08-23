@@ -1,6 +1,7 @@
 /* eslint-disable curly */
 const { user: User } = require('../../models');
 const { checkPassword } = require('../../helpers/encryption');
+const { get } = require('lodash');
 
 // eslint-disable-next-line no-useless-escape
 const regexValidEmail = /^([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)@wolox.(com\.ar|cl)$/;
@@ -36,7 +37,7 @@ const isLoginValid = async user => {
     return errors;
   }
 
-  if (!checkPassword(password, obtainedUser.dataValues.password))
+  if (!checkPassword(password, get(obtainedUser, 'dataValues.password', [])))
     errors.push(`The password for the user with the username: ${username} was wrong.`);
 
   return errors;

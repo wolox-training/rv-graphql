@@ -166,8 +166,10 @@ describe('users', () => {
           username: 'carlos',
           password: encryptPassword('mysuperpassword')
         });
+        console.log(user);
         await apolloServer.setContext({ user });
-        await mutate(await buyAlbum(5));
+        console.log(await buyAlbum(5));
+        console.log(await mutate(await buyAlbum(5)));
         const data = await mutate(await buyAlbum(5));
         expect(data.errors[0].message).toEqual('Album already purchased');
       });
