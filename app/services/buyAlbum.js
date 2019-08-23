@@ -54,7 +54,7 @@ const buyAlbumForUser = async (albumId, context) => {
     });
   }
 
-  const albumsFromUser = await albumsFromUserLoader.load(get(userObject, 'dataValues.username'));
+  const albumsFromUser = await getAlbumsFromUser(get(userObject, 'dataValues.username'));
 
   const userHasTheAlbum = albumsFromUser.find(album => album.originalAlbumId === albumId);
 
