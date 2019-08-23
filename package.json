@@ -59,6 +59,7 @@
     "apollo-server": "^2.8.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.4",
+    "dataloader": "^1.4.0",
     "express-wolox-logger": "0.0.1",
     "graphql": "^14.4.2",
     "graphql-tools": "^4.0.5",

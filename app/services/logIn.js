@@ -2,6 +2,7 @@
 const { users: User } = require('../models');
 const { checkPassword } = require('../helpers/encryption');
 const { signToken } = require('../helpers/token');
+const { get } = require('lodash');
 
 const areCredentialsPresent = user => {
   const errors = [];
@@ -20,7 +21,7 @@ const isLoginValid = async user => {
     return errors;
   }
 
-  if (!checkPassword(password, obtainedUser.dataValues.password))
+  if (!checkPassword(password, get(obtainedUser, 'dataValues.password')))
     errors.push(`The password for the user with the username: ${username} was wrong.`);
 
   return errors;

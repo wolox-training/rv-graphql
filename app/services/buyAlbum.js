@@ -1,6 +1,9 @@
 /* eslint-disable curly */
+const DataLoader = require('dataloader');
+const { get } = require('lodash');
+
 const { users: User, albums: Album } = require('../models');
-const { getAlbumById } = require('./albums');
+const { albumByIdLoader } = require('./albums');
 const { badRequest } = require('../errors');
 
 const getAlbumsFromUser = async user => {
@@ -9,7 +12,7 @@ const getAlbumsFromUser = async user => {
     include: [{ model: Album, as: 'albums' }]
   });
 
-  const albumsArray = userObject.dataValues.albums;
+  const albumsArray = get(userObject, 'dataValues.albums');
 
   return albumsArray.map(albumObject => {
     const album = albumObject.get();
@@ -22,6 +25,18 @@ const getAlbumsFromUser = async user => {
   });
 };
 
+const getOwnersFromAlbum = async album => {
+  const albumObject = await Album.findOne({
+    where: { originalAlbumId: album },
+    include: [{ model: User, as: 'users' }]
+  });
+
+  return get(albumObject, 'dataValues.users', []).map(userObject => userObject.get());
+};
+
+const albumsFromUserLoader = new DataLoader(keys => Promise.all(keys.map(getAlbumsFromUser)));
+const ownersFromAlbumLoader = new DataLoader(keys => Promise.all(keys.map(getOwnersFromAlbum)));
+
 const buyAlbumForUser = async (albumId, context) => {
   const { user } = context;
   const userObject = await User.getOne({ username: user.username });
@@ -31,7 +46,7 @@ const buyAlbumForUser = async (albumId, context) => {
   let albumInTheDB = await Album.getOne({ originalAlbumId: albumId });
 
   if (!albumInTheDB) {
-    const receivedAlbum = (await getAlbumById(albumId)).body;
+    const receivedAlbum = (await albumByIdLoader.load(albumId)).body;
     albumInTheDB = await Album.createModel({
       originalAlbumId: receivedAlbum.id,
       originalUserId: receivedAlbum.userId,
@@ -39,7 +54,7 @@ const buyAlbumForUser = async (albumId, context) => {
     });
   }
 
-  const albumsFromUser = await getAlbumsFromUser(userObject.dataValues.username);
+  const albumsFromUser = await getAlbumsFromUser(get(userObject, 'dataValues.username'));
 
   const userHasTheAlbum = albumsFromUser.find(album => album.originalAlbumId === albumId);
 
@@ -51,4 +66,8 @@ const buyAlbumForUser = async (albumId, context) => {
   return badRequest('Album already purchased');
 };
 
-module.exports = { buyAlbumForUser, getAlbumsFromUser };
+module.exports = {
+  buyAlbumForUser,
+  albumsFromUserLoader,
+  ownersFromAlbumLoader
+};

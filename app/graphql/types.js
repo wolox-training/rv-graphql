@@ -36,6 +36,7 @@ module.exports = gql`
     originalUserId: Int!
     title: String!
     photos: [Photo!]
+    owners: [User]
   }
   type Photo {
     id: ID!
