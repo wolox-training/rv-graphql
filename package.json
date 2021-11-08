@@ -56,7 +56,7 @@
     }
   },
   "dependencies": {
-    "apollo-server": "^2.8.1",
+    "apollo-server": "^2.25.3",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.4",
     "dataloader": "^1.4.0",
